@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   ShoppingBag, 
   X, 
@@ -15,9 +15,14 @@ import {
 } from "lucide-react";
 
 export function RepresentStorefront() {
+  const [mounted, setMounted] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<string>("L");
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const sizes = ["S", "M", "L", "XL", "XXL"];
   const unitPrice = 220;
@@ -42,7 +47,7 @@ export function RepresentStorefront() {
           className="flex h-10 items-center gap-2 border border-neutral-800 bg-neutral-900 px-3 font-mono text-xs text-neutral-300 transition-colors hover:border-neutral-600 hover:text-white"
         >
           <ShoppingBag className="h-4 w-4" />
-          <span>BAG ({quantity})</span>
+          <span>BAG ({mounted ? quantity : 1})</span>
         </button>
       </header>
 
@@ -134,7 +139,7 @@ export function RepresentStorefront() {
               <Minus className="h-3.5 w-3.5" />
             </button>
             <span className="w-8 text-center font-mono text-xs font-bold text-neutral-200">
-              {quantity}
+              {mounted ? quantity : 1}
             </span>
             <button
               onClick={() => setQuantity(quantity + 1)}
